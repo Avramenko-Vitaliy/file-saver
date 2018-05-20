@@ -1,0 +1,59 @@
+version: '2'
+services:
+  nginx:
+    build: ./balancer
+    restart: always
+    links:
+        - "node-1:node-1"
+        - "node-2:node-2"
+        - "node-3:node-3"
+    ports:
+        - "80:80"
+  redis:
+    image: redis:4.0.1-alpine
+    ports:
+        - "6380:6379"
+  node-1:
+    image: "vitaliyavramenko/file-saver"
+    restart: always
+    environment:
+        - spring.redis.host=redis
+        - app.id=5cc06d4d-b7a3-4b28-a901-3c3f50e421a6
+        - app.file-storage=/storage/file
+        - app.log-storage=/storage/logs
+    links:
+        - "redis:redis"
+    ports:
+        - "8080"
+    volumes:
+        - "./storage:/storage"
+
+  node-2:
+    image: "vitaliyavramenko/file-saver"
+    restart: always
+    environment:
+        - spring.redis.host=redis
+        - app.id=19b1bc0c-85da-4323-b94c-75c40fac5165
+        - app.file-storage=/storage/file
+        - app.log-storage=/storage/logs
+    links:
+        - "redis:redis"
+    ports:
+        - "8080"
+    volumes:
+        - "./storage:/storage"
+
+  node-3:
+    image: "vitaliyavramenko/file-saver"
+    restart: always
+    environment:
+        - spring.redis.host=redis
+        - app.id=bf125822-1918-4448-bcb7-68b0164891f9
+        - app.file-storage=/storage/file
+        - app.log-storage=/storage/logs
+    links:
+        - "redis:redis"
+    ports:
+        - "8080"
+    volumes:
+        - "./storage:/storage"
