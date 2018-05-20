@@ -1,5 +1,5 @@
 ## File saver
-Что бы развернуть ноды в `file-saver/src/test/resources` необходимо выполнить файл `update_run.sh`.
+Что бы развернуть ноды в `file-saver/deploy` необходимо выполнить файл `update_run.sh`.
 После чего будут стянуты и подняты три ноды, nginx и Redis.
 
 #### Описание
