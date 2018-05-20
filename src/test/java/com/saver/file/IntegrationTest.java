@@ -1,6 +1,7 @@
 package com.saver.file;
 
 import org.apache.http.HttpStatus;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -19,6 +20,10 @@ import static org.hamcrest.Matchers.is;
 @RunWith(BlockJUnit4ClassRunner.class)
 public class IntegrationTest {
     private String TEST_DIR = new File(getClass().getClassLoader().getResource("files").getPath()).getAbsolutePath();
+
+    private String NODE_ID_1 = "5cc06d4d-b7a3-4b28-a901-3c3f50e421a6";
+    private String NODE_ID_2 = "19b1bc0c-85da-4323-b94c-75c40fac5165";
+    private String NODE_ID_3 = "bf125822-1918-4448-bcb7-68b0164891f9";
 
     private static final String DOCKER_COMPOSE_TEST = "deploy/docker-compose.yml";
 
@@ -62,6 +67,13 @@ public class IntegrationTest {
                 .get("http://localhost:80/node-3/file-api/" + key + "/download")
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
+
+        File fileNode1 = new File("deploy/storage/file/" + NODE_ID_1 + "/" + key);
+        File fileNode2 = new File("deploy/storage/file/" + NODE_ID_2 + "/" + key);
+        File fileNode3 = new File("deploy/storage/file/" + NODE_ID_3 + "/" + key);
+
+        Assert.assertFalse(fileNode1.exists());
+        Assert.assertTrue(fileNode2.exists() || fileNode3.exists());
     }
 
 }
