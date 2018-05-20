@@ -2,6 +2,7 @@ package com.saver.file;
 
 import org.apache.http.HttpStatus;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -33,6 +34,14 @@ public class IntegrationTest {
 
     static {
         container.starting(Description.EMPTY);
+    }
+
+    @Before
+    public void prepare() {
+        File dir = new File("deploy/storage");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
     }
 
     @Test
